@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     // 商品
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
+    Route::post('/items/confirm', [ItemController::class, 'confirm'])->name('items.confirm');
     // 問い合わせ
     Route::get('/contact/create', [ContactController::class, 'index'])->name('contact.create');
 
