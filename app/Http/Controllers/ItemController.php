@@ -37,8 +37,8 @@ class ItemController extends Controller
             'arrival_source' => 'required|string|max:255',
             'manufacturer' => 'required|string|max:255',
             'price' => 'required|integer',
-            'email' => 'required|string|max:255',
-            'tel' => 'required|string|max:255'
+            'email' => 'required|string|email|max:255',
+            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/'
         ]);
         
         $request->session()->put('validatedData', $validatedData);

@@ -11,23 +11,3 @@
 </dl>
 
 
-
-
-
-
-{{-- 
-
-        <th class="px-4 py-2">ID</th>
-        <th class="px-4 py-2">商品名</th>
-        <th class="px-4 py-2">入荷元</th>
-        <th class="px-4 py-2">製造元</th>
-        <th class="px-4 py-2">価格</th>
-        <th class="px-4 py-2">登録日</th>
-
-            <td class="px-4 py-2">{{ $item->id }}</td>
-            <td class="px-4 py-2">{{ $item->product_name }}</td>
-            <td class="px-4 py-2">{{ $item->arrival_source }}</td>
-            <td class="px-4 py-2">{{ $item->manufacturer }}</td>
-            <td class="px-4 py-2">{{ $item->price }}</td>
-            <td class="px-4 py-2">{{ Carbon\Carbon::parse($item->created_at)->format('Y年m月d日') }}</td> --}}
-

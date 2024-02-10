@@ -3,44 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminInquiryNotification;
+use App\Mail\UserContactConfirmation;
 
 class ContactController extends Controller
 {
     // フォーム表示
     public function create()
     {
-        // $product = new Product();
-        // return view('products.create', compact('product'));
         return view('contact.create');
     }
-    
-    // 送信処理
-    public function store(Request $request)
-    {
-        // バリデーション
-        $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'message' => 'required',
-        ]);
-    
-        // ここでお問い合わせ内容をデータベースに保存したり、メールを送信したりする
-    
-        return redirect()->route('contact.create')->with('success', 'お問い合わせありがとうございます！');
-    }
-    
-    // 確認画面表示（オプション）
+       
+    // 確認画面表示
     public function confirm(Request $request)
     {
-        $data = $request->all();
-
+        // バリデーション
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|string|email|max:255',
+            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
+            'message' => 'required',
+        ]);
+        
+        // セッションに入れる
+        $request->session()->put('validatedData', $validatedData);
+        
         // 確認画面のビューを返す
-        return view('contact.confirm', compact('data'));
+        return view('contact.confirm');
     }
 
     // 送信完了画面表示
-    public function complete()
+    public function send(Request $request)
     {
-        return view('contact.complete');
+        // セッションから情報を取得
+        $validatedData = $request->session()->get('validatedData', []);
+
+        if (!$validatedData) {
+            return redirect(route('items.create'))
+                ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
+        }
+        
+        // メール送信の処理
+        Mail::to($request->email)->send(new UserContactConfirmation($validatedData));
+        Mail::to($request->email)->send(new AdminInquiryNotification($validatedData));
+        
+        // セッションからvalidatedDataを削除
+        $request->session()->forget('validatedData');
+        
+        return redirect()->route('contact.thanks');
+        
+    }
+
+    public function thanks()
+    {
+      return view('contact.thanks');
     }
 }

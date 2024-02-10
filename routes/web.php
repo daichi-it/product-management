@@ -31,8 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
     Route::post('/items/confirm', [ItemController::class, 'confirm'])->name('items.confirm');
+
     // 問い合わせ
-    Route::get('/contact/create', [ContactController::class, 'index'])->name('contact.create');
+    Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+    Route::post('/contact/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
+    Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+    Route::get('/contact/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
 
     // Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     // Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
