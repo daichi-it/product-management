@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
     Route::post('/items/confirm', [ItemController::class, 'confirm'])->name('items.confirm');
+    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
 
     // 問い合わせ
     Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
