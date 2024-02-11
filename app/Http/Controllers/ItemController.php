@@ -106,8 +106,20 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Item $item)
+    public function destroy(Request $request, $id)
     {
-        //
+        $item = Item::find($id);
+        if (!$item) {
+            return redirect()->back()->with('error', '指定された商品が見つかりませんでした。');
+        }
+        $item->delete();
+
+        return redirect()->back()
+            ->with('status', "商品(ID:{$id})を削除しました。");
+        
+        // 下記、考えてみたけど、back()のほうが普通っぽい
+        // $previousUrl = url()->previous();
+        // return redirect($previousUrl)
+        //     ->with('status', "商品(ID:{$id})を削除しました。");
     }
 }
