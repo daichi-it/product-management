@@ -24,14 +24,15 @@ class ItemController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {        
         $item = new Item();
         return view('items.create', compact('item'));
     }
 
 
-    public function confirm(Request $request)
+    public function confirm(Request $request, Item $item = null)
     {
+        // バリデーション
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'arrival_source' => 'required|string|max:255',
@@ -41,9 +42,14 @@ class ItemController extends Controller
             'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/'
         ]);
         
+        // 新規登録か更新かを判断
+        $isUpdate = !is_null($item);
+        
+        //セッションに情報を保存
         $request->session()->put('validatedData', $validatedData);
+        $request->session()->put('isUpdate', $isUpdate);
 
-        return view('items.confirm');
+        return view('items.confirm', compact('item'));
     }
 
 
@@ -74,6 +80,7 @@ class ItemController extends Controller
             ]);
             $log->save();
         });
+
         // データの保存後、セッションからバリデーション済みデータを削除
         $request->session()->forget('validatedData');
         return redirect(route('items.index'));
@@ -84,7 +91,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        // return view('items.show', compact('item'));
     }
 
     /**
@@ -92,7 +99,7 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        return view('items.edit', compact('item'));
     }
 
     /**
@@ -100,7 +107,33 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $validatedData = $request->session()->get('validatedData', []);
+        if (!$validatedData) {
+            return redirect(route('items.edit', $item->id))
+                ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
+        }
+
+        DB::transaction(function () use ($validatedData, $item) {
+            $item->product_name = $validatedData['product_name'];
+            $item->arrival_source = $validatedData['arrival_source'];
+            $item->manufacturer = $validatedData['manufacturer'];
+            $item->price = $validatedData['price'];
+            $item->save();
+    
+            $log = new Log([
+                'email' => $validatedData['email'],
+                'tel' => $validatedData['tel'],
+                'information' => "{$validatedData['email']}がitem_id:{$item->id}の更新処理を実施",
+            ]);
+            $log->save();
+        });
+        
+        // 完了画面での表示制御用
+        $request->session()->put('isUpdate', true);
+
+        // データの保存後、セッションからバリデーション済みデータを削除
+        $request->session()->forget('validatedData');
+        return redirect(route('items.complete'));
     }
 
     /**
@@ -115,11 +148,11 @@ class ItemController extends Controller
         $item->delete();
 
         return redirect()->back()
-            ->with('status', "商品(ID:{$id})を削除しました。");
-        
-        // 下記、考えてみたけど、back()のほうが普通っぽい
-        // $previousUrl = url()->previous();
-        // return redirect($previousUrl)
-        //     ->with('status', "商品(ID:{$id})を削除しました。");
+            ->with('status', "商品(ID:{$id})を削除しました。");        
+    }
+
+    public function complete()
+    {
+        return view('items.complete');
     }
 }

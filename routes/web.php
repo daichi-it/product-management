@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
     Route::post('/items/confirm', [ItemController::class, 'confirm'])->name('items.confirm');
+    Route::get('/items/complete', [ItemController::class, 'complete'])->name('items.complete');
+    Route::post('/items/{item}/confirm', [ItemController::class, 'confirm'])->name('items.update.confirm');
+    Route::get('/items/{item}', [ItemController::class, 'edit'])->name('items.edit');
+    Route::patch('/items/{item}', [ItemController::class, 'update'])->name('items.update');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
 
     // 問い合わせ
