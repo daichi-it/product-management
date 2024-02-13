@@ -24,9 +24,8 @@ class ItemController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {        
-        $item = new Item();
-        return view('items.create', compact('item'));
+    {
+        return view('items.create');
     }
 
 
@@ -46,7 +45,7 @@ class ItemController extends Controller
         $isUpdate = !is_null($item);
         
         //セッションに情報を保存
-        $request->session()->put('validatedData', $validatedData);
+        $request->session()->put('data', $validatedData);
         $request->session()->put('isUpdate', $isUpdate);
 
         return view('items.confirm', compact('item'));
@@ -58,31 +57,31 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->session()->get('validatedData', []);
-        if (!$validatedData) {
+        $sessionData = $request->session()->get('data', []);
+        if (!$sessionData) {
             return redirect(route('items.create'))
                 ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
         }
 
-        DB::transaction(function () use ($validatedData) {
+        DB::transaction(function () use ($sessionData) {
             $item = new Item([
-                'product_name' => $validatedData['product_name'],
-                'arrival_source' => $validatedData['arrival_source'],
-                'manufacturer' => $validatedData['manufacturer'],
-                'price' => $validatedData['price'],
+                'product_name' => $sessionData['product_name'],
+                'arrival_source' => $sessionData['arrival_source'],
+                'manufacturer' => $sessionData['manufacturer'],
+                'price' => $sessionData['price'],
             ]);   
             $item->save();
     
             $log = new Log([
-                'email' => $validatedData['email'],
-                'tel' => $validatedData['tel'],
-                'information' => "{$validatedData['email']}がitem_id:{$item->id}の登録処理を実施",
+                'email' => $sessionData['email'],
+                'tel' => $sessionData['tel'],
+                'information' => "{$sessionData['email']}がitem_id:{$item->id}の登録処理を実施",
             ]);
             $log->save();
         });
 
         // データの保存後、セッションからバリデーション済みデータを削除
-        $request->session()->forget('validatedData');
+        $request->session()->forget('data');
         return redirect(route('items.index'));
     }
 
@@ -99,7 +98,19 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('items.edit', compact('item'));
+        // セッションデータを取得
+        $sessionData = session('data');
+
+        // セッションデータが存在する場合は、そのデータを使用
+        if (!$sessionData) {
+            $sessionData['product_name'] = $item->product_name;
+            $sessionData['arrival_source'] = $item->arrival_source;
+            $sessionData['manufacturer'] = $item->manufacturer;
+            $sessionData['price'] = $item->price;
+        }
+        $data = $sessionData;
+
+        return view('items.edit', compact('data', 'item'));
     }
 
     /**
@@ -107,23 +118,23 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        $validatedData = $request->session()->get('validatedData', []);
-        if (!$validatedData) {
+        $sessionData = session('data');
+        if (!$sessionData) {
             return redirect(route('items.edit', $item->id))
                 ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
         }
 
-        DB::transaction(function () use ($validatedData, $item) {
-            $item->product_name = $validatedData['product_name'];
-            $item->arrival_source = $validatedData['arrival_source'];
-            $item->manufacturer = $validatedData['manufacturer'];
-            $item->price = $validatedData['price'];
+        DB::transaction(function () use ($sessionData, $item) {
+            $item->product_name = $sessionData['product_name'];
+            $item->arrival_source = $sessionData['arrival_source'];
+            $item->manufacturer = $sessionData['manufacturer'];
+            $item->price = $sessionData['price'];
             $item->save();
     
             $log = new Log([
-                'email' => $validatedData['email'],
-                'tel' => $validatedData['tel'],
-                'information' => "{$validatedData['email']}がitem_id:{$item->id}の更新処理を実施",
+                'email' => $sessionData['email'],
+                'tel' => $sessionData['tel'],
+                'information' => "{$sessionData['email']}がitem_id:{$item->id}の更新処理を実施",
             ]);
             $log->save();
         });
@@ -132,7 +143,7 @@ class ItemController extends Controller
         $request->session()->put('isUpdate', true);
 
         // データの保存後、セッションからバリデーション済みデータを削除
-        $request->session()->forget('validatedData');
+        $request->session()->forget('data');
         return redirect(route('items.complete'));
     }
 
