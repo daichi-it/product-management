@@ -25,7 +25,21 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.create');
+        // セッションデータを取得
+        $sessionData = session('data');
+
+        // セッションデータがない場合は、初期化
+        if (!$sessionData) {
+            $sessionData['product_name'] = '';
+            $sessionData['arrival_source'] = '';
+            $sessionData['manufacturer'] = '';
+            $sessionData['price'] = '';
+            $sessionData['email'] = '';
+            $sessionData['tel'] = '';
+        }
+        $data = $sessionData;
+
+        return view('items.create', compact('data'));
     }
 
 
@@ -82,7 +96,7 @@ class ItemController extends Controller
 
         // データの保存後、セッションからバリデーション済みデータを削除
         $request->session()->forget('data');
-        return redirect(route('items.index'));
+        return redirect(route('items.complete'));
     }
 
     /**
@@ -101,12 +115,14 @@ class ItemController extends Controller
         // セッションデータを取得
         $sessionData = session('data');
 
-        // セッションデータが存在する場合は、そのデータを使用
+        // セッションデータがない場合は、DBデータ
         if (!$sessionData) {
             $sessionData['product_name'] = $item->product_name;
             $sessionData['arrival_source'] = $item->arrival_source;
             $sessionData['manufacturer'] = $item->manufacturer;
             $sessionData['price'] = $item->price;
+            $sessionData['email'] = '';
+            $sessionData['tel'] = '';
         }
         $data = $sessionData;
 
