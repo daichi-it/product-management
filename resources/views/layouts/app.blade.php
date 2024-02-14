@@ -30,7 +30,9 @@
             <!-- Page Content -->
             <main>
                 <div class="container mx-auto py-4">
-                    @yield("content")
+                    {{ $slot }}
+
+                    {{-- @yield("content") --}}
                 </div>
             </main>
         </div>
