@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     // 商品
@@ -42,15 +42,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
     Route::get('/contact/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
-
-    // Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-    // Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
-    // Route::get('/contact', [ContactController::class, 'edit'])->name('contact.index');
-    
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ダッシュボード
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // マイページ
+    Route::get('/mypage', function () {
+        return view('mypage');
+    })->name('mypage');
 });
 
 require __DIR__.'/auth.php';

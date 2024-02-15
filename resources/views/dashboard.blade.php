@@ -17,6 +17,7 @@
             <a href="{{ route('items.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品一覧</a>
             <a href="{{ route('items.create') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品新規追加</a>
             <a href="{{ route('contact.create') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">問い合わせ</a>
+            <a href="{{ route('mypage') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">マイページ</a>
         </div>
     </div>
 </x-app-layout>
