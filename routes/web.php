@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LogController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -43,9 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
     Route::get('/contact/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
     
+    // プロフィール
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ログ
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 
     // ダッシュボード
     Route::get('/dashboard', function () {
