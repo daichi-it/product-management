@@ -77,7 +77,7 @@ class ItemController extends Controller
                 ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
         }
 
-        DB::transaction(function () use ($sessionData) {
+        DB::transaction(function () use ($sessionData, $request) {
             $item = new Item([
                 'product_name' => $sessionData['product_name'],
                 'arrival_source' => $sessionData['arrival_source'],
@@ -87,6 +87,7 @@ class ItemController extends Controller
             $item->save();
     
             $log = new Log([
+                'user_id' => $request->user()->id,
                 'email' => $sessionData['email'],
                 'tel' => $sessionData['tel'],
                 'information' => "{$sessionData['email']}がitem_id:{$item->id}の登録処理を実施",
@@ -140,7 +141,7 @@ class ItemController extends Controller
                 ->withErrors(['error' => 'セッションが失われました。もう一度入力してください。']);
         }
 
-        DB::transaction(function () use ($sessionData, $item) {
+        DB::transaction(function () use ($sessionData, $item, $request) {
             $item->product_name = $sessionData['product_name'];
             $item->arrival_source = $sessionData['arrival_source'];
             $item->manufacturer = $sessionData['manufacturer'];
@@ -148,6 +149,7 @@ class ItemController extends Controller
             $item->save();
     
             $log = new Log([
+                'user_id' => $request->user()->id,
                 'email' => $sessionData['email'],
                 'tel' => $sessionData['tel'],
                 'information' => "{$sessionData['email']}がitem_id:{$item->id}の更新処理を実施",
