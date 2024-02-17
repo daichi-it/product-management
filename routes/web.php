@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LogController;
-
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +37,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/{item}', [ItemController::class, 'edit'])->name('items.edit');
     Route::patch('/items/{item}', [ItemController::class, 'update'])->name('items.update');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+    Route::get('/favorite_items', [ItemController::class, 'favorite_items'])->name('items.favorite_items');
+
+    // お気に入り
+    Route::post('/items/{item}/favorite', [FavoriteController::class, 'store'])->name('favorite.store');
+    Route::delete('/items/{item}/unfavorite', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
+    Route::get('/favorites', [FavoriteController::class, 'favorite_items'])->name('favorites');
+    // favorites.indexとかitems.favoritesとかにする必要はない？
 
     // 問い合わせ
     Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');

@@ -184,4 +184,10 @@ class ItemController extends Controller
     {
         return view('items.complete');
     }
+
+    public function favorite_items()
+    {
+        $items = \Auth::user()->favorite_items()->orderBy('created_at', 'desc')->paginate(5);
+        return view('items.favorite_items', compact('items'));
+    }
 }
