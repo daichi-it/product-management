@@ -10,6 +10,6 @@ class Item extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ["product_name", "arrival_source", "manufacturer", "price"];
+    protected $fillable = ["item_name", "arrival_source", "manufacturer", "price"];
 
 }

@@ -110,7 +110,7 @@ return [
     |
     */
     'attributes' => [
-        'product_name' => '商品名',
+        'item_name' => '商品名',
         'arrival_source' => '入荷元',
         'manufacturer' => '製造元',
         'price' => '価格',

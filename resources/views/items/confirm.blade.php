@@ -17,7 +17,7 @@
             @method('PATCH')
         @endif
         <div class="bg-gray-100 p-4 rounded mt-4">
-            <p class="text-lg">商品名: {{ session('data')['product_name'] }}</p>
+            <p class="text-lg">商品名: {{ session('data')['item_name'] }}</p>
             <p class="text-lg">入荷元: {{ session('data')['arrival_source'] }}</p>
             <p class="text-lg">製造元: {{ session('data')['manufacturer'] }}</p>
             <p class="text-lg">価格: {{ session('data')['price'] }}</p>

@@ -30,7 +30,7 @@ class ItemController extends Controller
 
         // セッションデータがない場合は、初期化
         if (!$sessionData) {
-            $sessionData['product_name'] = '';
+            $sessionData['item_name'] = '';
             $sessionData['arrival_source'] = '';
             $sessionData['manufacturer'] = '';
             $sessionData['price'] = '';
@@ -47,7 +47,7 @@ class ItemController extends Controller
     {
         // バリデーション
         $validatedData = $request->validate([
-            'product_name' => 'required|string|max:255',
+            'item_name' => 'required|string|max:255',
             'arrival_source' => 'required|string|max:255',
             'manufacturer' => 'required|string|max:255',
             'price' => 'required|integer',
@@ -79,7 +79,7 @@ class ItemController extends Controller
 
         DB::transaction(function () use ($sessionData, $request) {
             $item = new Item([
-                'product_name' => $sessionData['product_name'],
+                'item_name' => $sessionData['item_name'],
                 'arrival_source' => $sessionData['arrival_source'],
                 'manufacturer' => $sessionData['manufacturer'],
                 'price' => $sessionData['price'],
@@ -118,7 +118,7 @@ class ItemController extends Controller
 
         // セッションデータがない場合は、DBデータ
         if (!$sessionData) {
-            $sessionData['product_name'] = $item->product_name;
+            $sessionData['item_name'] = $item->item_name;
             $sessionData['arrival_source'] = $item->arrival_source;
             $sessionData['manufacturer'] = $item->manufacturer;
             $sessionData['price'] = $item->price;
@@ -142,7 +142,7 @@ class ItemController extends Controller
         }
 
         DB::transaction(function () use ($sessionData, $item, $request) {
-            $item->product_name = $sessionData['product_name'];
+            $item->item_name = $sessionData['item_name'];
             $item->arrival_source = $sessionData['arrival_source'];
             $item->manufacturer = $sessionData['manufacturer'];
             $item->price = $sessionData['price'];

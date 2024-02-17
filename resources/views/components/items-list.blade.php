@@ -27,7 +27,7 @@
                     <td class="px-4 py-2">{{ $item->id }}
                         <a href="{{ route('items.edit', $item) }}" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700">編集</a>
                     </td>
-                    <td class="px-4 py-2">{{ $item->product_name }}</td>
+                    <td class="px-4 py-2">{{ $item->item_name }}</td>
                     <td class="px-4 py-2">{{ $item->arrival_source }}</td>
                     <td class="px-4 py-2">{{ $item->manufacturer }}</td>
                     <td class="px-4 py-2">{{ $item->price }}</td>
