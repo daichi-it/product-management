@@ -118,5 +118,9 @@ return [
         'tel' => '電話番号',
         'information' => '作業内容',
         'item_num' => '個数',
+        'message' => '問い合わせ内容',
+        'name' => '名前',
+        'shumi' => '趣味',
+        'tokugi' => '特技',
     ],
 ];
