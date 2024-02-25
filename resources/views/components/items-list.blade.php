@@ -18,6 +18,7 @@
                     <th class="px-4 py-2">価格</th>
                     <th class="px-4 py-2">登録日</th>
                     <th class="px-4 py-2">お気に入り</th>
+                    <th class="px-4 py-2">カート</th>
                     <th class="px-4 py-2">削除</th>
                 </tr>
             </thead>
@@ -48,7 +49,12 @@
                         @endif
                     </td>
 
-                    
+                    <td class="px-4 py-2">
+                        <form action="{{ route('cart_items.add_cart', $item) }}" method="post">
+                            @csrf
+                            <button class="add-to-cart-button bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">カートに入れる</button>
+                        </form>
+                    </td>
 
                     <td class="px-4 py-2">
                         <button type="button" x-on:click="showModal = true; itemId = {{ $item->id }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700">
@@ -89,3 +95,28 @@
         </div>
     </div>
 </div>
+
+<script>
+$(function() {
+    $('.add-to-cart-button').on('click', function(e) {
+        e.preventDefault();
+
+        var formAction = $(this).closest('form').attr('action');
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: formAction,
+            type: 'POST',
+            data: {}
+        })
+        .done(function(response) {
+            alert('商品をカートに追加しました。');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            alert('商品をカートに追加できませんでした。');
+        });
+    });
+});
+</script>

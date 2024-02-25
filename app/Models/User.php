@@ -62,4 +62,15 @@ class User extends Authenticatable
     {
         return $this->favorites()->where('item_id', $itemId)->exists();
     }
+    
+    public function cart_items()
+    {
+        return $this->belongsToMany(Item::class, 'cart_items', 'user_id', 'item_id')
+            ->withPivot('quantity');
+    }
+
+    public function isInCart($itemId)
+    {
+        return $this->cart_items()->where('item_id', $itemId)->exists();
+    }
 }

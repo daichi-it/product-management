@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\FavoriteController;
@@ -58,6 +59,19 @@ Route::middleware('auth')->group(function () {
 
     // ログ
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+
+    // カート
+    Route::get('/cart', [CartItemController::class, 'index'])->name('cart_items.index');
+    Route::post('/cart/add_cart/{item}', [CartItemController::class, 'add_cart'])->name('cart_items.add_cart');
+    
+    // カートajax
+    Route::patch('/cart/update/{item}', [CartItemController::class, 'update'])->name('cart_items.update');
+    Route::delete('/cart/delete/{item}', [CartItemController::class, 'destroy'])->name('cart_items.destroy');
+    // 購入
+    Route::post('/cart', [CartItemController::class, 'purchase'])->name('purchase');
+
+
+    
 
     // ダッシュボード
     Route::get('/dashboard', function () {
