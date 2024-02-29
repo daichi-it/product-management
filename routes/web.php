@@ -6,6 +6,8 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ShippingController;
+use App\Models\Shipping;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +72,10 @@ Route::middleware('auth')->group(function () {
     // 購入
     Route::post('/cart', [CartItemController::class, 'purchase'])->name('purchase');
 
+    // 出荷先
+    Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
+    // Route::get('/shippings/{shipping}', [ShippingController::class, 'edit'])->name('shippings.edit');
+    Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
 
     
 
