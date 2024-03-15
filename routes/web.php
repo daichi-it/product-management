@@ -7,7 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ShippingController;
-use App\Models\Shipping;
+// use App\Models\Shipping;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,6 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
     // Route::get('/shippings/{shipping}', [ShippingController::class, 'edit'])->name('shippings.edit');
     Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
+    Route::get('/shippings/register', [ShippingController::class, 'register'])->name('shippings.register');
+    Route::post('/shippings/confirm', [ShippingController::class, 'confirm'])->name('shippings.confirm');
+    Route::post('/shippings/store', [ShippingController::class, 'store'])->name('shippings.store');
 
     
 

@@ -30,7 +30,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="container mx-auto py-4">
+                <div class="container max-w-7xl mx-auto py-4">
                     {{ $slot }}
                 </div>
             </main>

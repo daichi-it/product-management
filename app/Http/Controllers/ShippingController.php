@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipping;
 use Illuminate\Http\Request;
+use Validator;
 
 class ShippingController extends Controller
 {
@@ -14,6 +15,25 @@ class ShippingController extends Controller
     {
         $shippings = Shipping::orderBy('created_at', 'desc')->paginate(5);
         return view('shippings.index', compact('shippings'));
+    }
+
+    public function confirm(Request $request)
+    {
+        $rules = [
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
+        ];
+
+        // バリデーション実行（非同期はこの方法が推奨）
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            // バリデーションエラー時の処理
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        return response()->json($request->all());
     }
 
     /**
@@ -29,7 +49,15 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'tel' => 'required|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
+        ]);
+
+        $shipping = Shipping::create($validatedData);
+
+        return response()->json(['success' => '出荷先が登録されました。', 'id' => $shipping->id], 201);
     }
 
     /**
@@ -69,5 +97,12 @@ class ShippingController extends Controller
 
         return redirect()->back()
             ->with('status', "出荷先(ID: {$id}、名前: {$shipping->name})を削除しました。");  
+    }
+
+
+    public function register(Request $request)
+    {
+        $shipping = new Shipping();
+        return view('shippings.register', compact('shipping'));
     }
 }
