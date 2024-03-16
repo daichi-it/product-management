@@ -1,4 +1,6 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+{{-- <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"> --}}
+<nav x-data="{ open: false, showItemModalMenu: false, showShippingModalMenu: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -15,6 +17,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- 商品メニューと出荷先メニューのトリガー -->
+                    <button type="button" x-on:click="showItemModalMenu = true" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">商品</button>
+                    <button type="button" x-on:click="showShippingModalMenu = true" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">出荷先</button>
+                    
                     <x-nav-link :href="route('cart_items.index')" :active="request()->routeIs('cart_items.index')">
                         {{ __('カート') }}
                     </x-nav-link>
@@ -73,6 +80,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
             <!-- Cart Link -->
             <x-responsive-nav-link :href="route('cart_items.index')" :active="request()->routeIs('cart_items.index')">
                 {{ __('カート') }}
@@ -102,6 +110,34 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商品メニューモーダル -->
+    <div x-show="showItemModalMenu" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showItemModalMenu = false">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">商品メニュー</h2>
+                <button @click="showItemModalMenu = false" class="text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+            <div class="mt-4">
+                <a href="{{ route('items.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品一覧</a>
+                <a href="{{ route('items.create') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品新規追加</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出荷先メニューモーダル -->
+    <div x-show="showShippingModalMenu" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showShippingModalMenu = false">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">出荷先メニュー</h2>
+                <button @click="showShippingModalMenu = false" class="text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+            <div class="mt-4">
+                <a href="{{ route('shippings.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">出荷先一覧</a>
+                <a href="{{ route('shippings.register') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">出荷先登録</a>
             </div>
         </div>
     </div>

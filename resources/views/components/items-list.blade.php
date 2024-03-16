@@ -72,8 +72,8 @@
     </div>
     
     {{-- モーダル --}}
-    <div x-show="showModal" style="display: none;" class="fixed inset-0 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" x-on:click.away="showModal = false">        
-        <div class="relative p-10 border w-1/2 max-w-4xl shadow-lg rounded-md bg-white" style="transform: none;">
+    <div x-show="showModal" class="fixed inset-0 z-60 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" @click="showModal = false">        
+        <div class="px-4 py-4 relative border w-1/2 max-w-4xl shadow-lg rounded-md bg-white" style="transform: none;" @click.stop>
             <div class="modal-header">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">商品削除確認</h3>
             </div>
