@@ -14,11 +14,21 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::orderBy('created_at', 'desc')->paginate(5);
+        $query = Item::query();
+
+        // キーワードでの絞り込み
+        if ($request->filled('keyword')) {
+            $query->where('item_name', 'like', '%' . $request->keyword . '%')
+                ->orWhere('arrival_source', 'like', '%' . $request->keyword . '%')
+                ->orWhere('manufacturer', 'like', '%' . $request->keyword . '%');
+        }
+
+        $items = $query->orderBy('created_at', 'desc')->paginate(5);
         return view('items.index', compact('items'));
     }
+
 
     /**
      * Show the form for creating a new resource.

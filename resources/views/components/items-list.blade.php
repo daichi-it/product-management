@@ -6,6 +6,17 @@
     </div>
     @endif
 
+    {{-- 検索 --}}
+    <form method="GET" action="{{ route('items.index') }}" class="mb-4">
+        <div class="mt-4 flex flex-row gap-3 justify-center items-center w-full">
+            <input type="text" name="keyword" placeholder="商品名・入荷元・製造元" value="{{ Request::get('keyword') }}"
+                class="form-input mt-1 block w-full sm:w-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 flex-grow">
+            <button type="submit" class="px-4 py-2 min-w-32 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-150 ease-in-out flex-shrink-0">
+                検索
+            </button>
+        </div>
+    </form>
+    
     {{-- 一覧 --}}
     <div class="overflow-x-auto">
         <table class="table-auto w-full text-left text-sm ml-4">
