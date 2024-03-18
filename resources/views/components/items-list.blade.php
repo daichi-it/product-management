@@ -23,11 +23,21 @@
             <thead>
                 <tr class="bg-gray-200 text-gray-600">
                     <th class="text-left px-4 py-2">ID</th>
-                    <th class="px-4 py-2">商品名</th>
-                    <th class="px-4 py-2">入荷元</th>
-                    <th class="px-4 py-2">製造元</th>
-                    <th class="px-4 py-2">価格</th>
-                    <th class="px-4 py-2">登録日</th>
+                    <th class="px-4 py-2">
+                        {!! item_sort_link('item_name', '商品名') !!}
+                    </th>
+                    <th class="px-4 py-2">
+                        {!! item_sort_link('arrival_source', '入荷元') !!}
+                    </th>
+                    <th class="px-4 py-2">
+                        {!! item_sort_link('manufacturer', '製造元') !!}
+                    </th>
+                    <th class="px-4 py-2">
+                        {!! item_sort_link('price', '価格') !!}
+                    </th>
+                    <th class="px-4 py-2">
+                        {!! item_sort_link('created_at', '登録日') !!}
+                    </th>
                     <th class="px-4 py-2">お気に入り</th>
                     <th class="px-4 py-2">カート</th>
                     <th class="px-4 py-2">削除</th>
@@ -83,7 +93,7 @@
     </div>
     
     {{-- モーダル --}}
-    <div x-show="showModal" class="fixed inset-0 z-60 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" @click="showModal = false">        
+    <div x-show="showModal" class="hidden fixed inset-0 z-60 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" @click="showModal = false">        
         <div class="px-4 py-4 relative border w-1/2 max-w-4xl shadow-lg rounded-md bg-white" style="transform: none;" @click.stop>
             <div class="modal-header">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">商品削除確認</h3>

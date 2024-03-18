@@ -25,7 +25,13 @@ class ItemController extends Controller
                 ->orWhere('manufacturer', 'like', '%' . $request->keyword . '%');
         }
 
-        $items = $query->orderBy('created_at', 'desc')->paginate(5);
+        // ソート処理
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        $query->orderBy($sort, $direction);
+
+        $items = $query->paginate(5);
+        
         return view('items.index', compact('items'));
     }
 

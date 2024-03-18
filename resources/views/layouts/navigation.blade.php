@@ -115,7 +115,7 @@
     </div>
 
     <!-- 商品メニューモーダル -->
-    <div x-show="showItemModalMenu" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showItemModalMenu = false">
+    <div x-show="showItemModalMenu" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showItemModalMenu = false">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">商品メニュー</h2>
@@ -129,7 +129,7 @@
     </div>
 
     <!-- 出荷先メニューモーダル -->
-    <div x-show="showShippingModalMenu" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showShippingModalMenu = false">
+    <div x-show="showShippingModalMenu" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showShippingModalMenu = false">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">出荷先メニュー</h2>
