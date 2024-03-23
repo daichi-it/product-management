@@ -15,17 +15,18 @@
             <dd><input type="text" name="email" value="{{ old('email', session('validatedData.email')) }}" class="border border-gray-300 rounded-md p-2"></dd>
             <dt class="pt-4">性別</dt>
             <dd>
-                <label><input type="radio" name="gender" value="male" checked> 男性</label>
-                <label><input type="radio" name="gender" value="female""> 女性</label>
+                <label><input type="radio" name="gender" value="male" {{ old('gender', session('validatedData.gender')) == 'female' ? '' : 'checked' }}> 男性</label>
+                <label><input type="radio" name="gender" value="female" {{ old('gender', session('validatedData.gender')) == 'female' ? 'checked' : '' }}> 女性</label>
             </dd>
             <div id="hobbyOrSkillSection">
-                <dt id="hobbyOrSkillLabel" class="pt-4">趣味</dt>
-                <dd><input type="text" id="hobbyOrSkillInput" name="shumi" class="border border-gray-300 rounded-md p-2"></dd>
+                <dt id="hobbyOrSkillLabel" class="pt-4">　</dt>
+                <dd><input type="text" name="hobby" value="{{ old('hobby', session('validatedData.name')) }}" class="border border-gray-300 rounded-md p-2"></dd>
+                <dd><input type="text" name="skill" value="{{ old('skill', session('validatedData.name')) }}" class="hidden border border-gray-300 rounded-md p-2"></dd>
             </div>
             <dt class="pt-4">電話番号</dt>
             <dd><input type="text" name="tel" value="{{ old('tel', session('validatedData.tel')) }}" class="border border-gray-300 rounded-md p-2"></dd>
             <dt class="pt-4">問い合わせ内容</dt>
-            <dd><textarea name="message" class="border border-gray-300 rounded-md p-2">{{ old('price', session('validatedData.message')) }}</textarea></dd>
+            <dd><textarea name="message" class="border border-gray-300 rounded-md p-2">{{ old('message', session('validatedData.message')) }}</textarea></dd>
         </dl>
         
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -40,16 +41,18 @@
         // 性別の選択が変更されたときのイベントハンドラー
         $('input[type="radio"][name="gender"]').change(function() {
             // 男性が選択された場合
-            if ($(this).val() === 'male') {
+            if ($(this).is(':checked') && $(this).val() === 'male') {
                 $('#hobbyOrSkillLabel').text('趣味');
-                $('#hobbyOrSkillInput').attr('name', 'shumi');
+                $('input[name="hobby"]').removeClass('hidden');
+                $('input[name="skill"]').addClass('hidden').val('');
             } 
             // 女性が選択された場合
-            else if ($(this).val() === 'female') {
+            else if ($(this).is(':checked') && $(this).val() === 'female') {
                 $('#hobbyOrSkillLabel').text('特技');
-                $('#hobbyOrSkillInput').attr('name', 'tokugi');
+                $('input[name="skill"]').removeClass('hidden');
+                $('input[name="hobby"]').addClass('hidden').val('');
             }
-        });
+        }).change(); // 初期表示
     });
     </script>
 </x-app-layout>

@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
     Route::get('/contact/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
+    Route::get('/contact/exportCsv', [ContactController::class, 'showExportCsv'])->name('contact.showExportCsv');
+    Route::get('/contact/exportCsv/{formatted_date}', [ContactController::class, 'exportCsv'])->name('contact.exportCsv');
     
     // プロフィール
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

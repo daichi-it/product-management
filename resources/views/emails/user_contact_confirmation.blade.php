@@ -10,10 +10,10 @@
         <li>お名前: {{ $details['name'] }}</li>
         <li>メールアドレス: {{ $details['email'] }}</li>
         <li>性別: {{ $details['gender'] === 'male' ? '男性' : '女性' }}</li>
-        @if($details['gender'] === 'male' && isset($details['shumi']))
-            <li>趣味: {{ $details['shumi'] }}</li>
-        @elseif($details['gender'] === 'female' && isset($details['tokugi']))
-            <li>特技: {{ $details['tokugi'] }}</li>
+        @if($details['gender'] === 'male' && isset($details['hobby']))
+            <li>趣味: {{ $details['hobby'] }}</li>
+        @elseif($details['gender'] === 'female' && isset($details['skill']))
+            <li>特技: {{ $details['skill'] }}</li>
         @endif
         <li>メールアドレス: {{ $details['email'] }}</li>
         <li>電話番号: {{ $details['tel'] }}</li>

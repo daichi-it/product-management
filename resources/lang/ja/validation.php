@@ -120,7 +120,7 @@ return [
         'item_num' => '個数',
         'message' => '問い合わせ内容',
         'name' => '名前',
-        'shumi' => '趣味',
-        'tokugi' => '特技',
+        'hobby' => '趣味',
+        'skill' => '特技',
     ],
 ];
