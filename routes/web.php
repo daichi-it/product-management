@@ -25,10 +25,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     // 商品
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
@@ -46,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/{item}/favorite', [FavoriteController::class, 'store'])->name('favorite.store');
     Route::delete('/items/{item}/unfavorite', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
     Route::get('/favorites', [FavoriteController::class, 'favorite_items'])->name('favorites');
-    // favorites.indexとかitems.favoritesとかにする必要はない？
 
     // 問い合わせ
     Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
@@ -76,13 +71,10 @@ Route::middleware('auth')->group(function () {
 
     // 出荷先
     Route::get('/shippings', [ShippingController::class, 'index'])->name('shippings.index');
-    // Route::get('/shippings/{shipping}', [ShippingController::class, 'edit'])->name('shippings.edit');
     Route::delete('/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
     Route::get('/shippings/register', [ShippingController::class, 'register'])->name('shippings.register');
     Route::post('/shippings/confirm', [ShippingController::class, 'confirm'])->name('shippings.confirm');
     Route::post('/shippings/store', [ShippingController::class, 'store'])->name('shippings.store');
-
-    
 
     // ダッシュボード
     Route::get('/dashboard', function () {

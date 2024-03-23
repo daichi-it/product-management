@@ -109,13 +109,12 @@ class ContactController extends Controller
             "Expires" => "0"
         );
 
-
         $columns = array('ユーザID', 'ユーザ名', 'メールアドレス', '性別', '趣味', '特技', '電話番号', 'メッセージ', '問い合わせ日時');
 
         $callback = function() use ($contacts, $columns) {
             $file = fopen('php://output', 'w');
             
-            // 文字コードをShift-JISに変換？
+            // 文字コードをShift-JISに変換
             stream_filter_prepend($file, 'convert.iconv.utf-8/cp932//TRANSLIT');
 
             // ヘッダ行
