@@ -5,12 +5,14 @@
         </h2>
     </x-slot>
 
-    @include('commons.errors')
-    <form action="{{ route('items.confirm') }}" method="post">
-        @include('items.form')
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">登録</button>
-        <a href="{{ route('items.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">キャンセル</a>
-    </form>
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        @include('commons.errors')
+        <form action="{{ route('items.confirm') }}" method="post">
+            @include('items.form')
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">登録</button>
+            <a href="{{ route('items.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">キャンセル</a>
+        </form>
+    </div>
 </x-app-layout>
 
 

@@ -26,15 +26,15 @@ class ContactController extends Controller
             'email' => 'required|string|email|max:255',
             'gender' => 'required|in:male,female',
             'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
-            'message' => 'required',
         ];
-
-        // 趣味 or 特技のバリデーションルールを追加
+        // 趣味 or 特技
         if ($request->input('gender') === 'male') {
-            $rules['hobby'] = 'required'; // 男性の場合、趣味が必須
+            $rules['hobby'] = 'required'; // 男性: 趣味が必須
         } else {
-            $rules['skill'] = 'required'; // 女性の場合、特技が必須
+            $rules['skill'] = 'required'; // 女性: 特技が必須
         }
+        // 問い合わせ内容
+        $rules['message'] = 'required';
         
         $validatedData = $request->validate($rules);
         

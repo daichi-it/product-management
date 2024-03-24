@@ -7,10 +7,10 @@
     @endif
 
     {{-- 検索 --}}
-    <form method="GET" action="{{ route('items.index') }}" class="mb-4">
+    <form method="GET" action="{{ request()->routeIs('items.favorite_items') ? route('items.favorite_items') : route('items.index') }}" class="mb-4">
         <div class="mt-4 flex flex-row gap-3 justify-center items-center w-full">
             <input type="text" name="keyword" placeholder="商品名・入荷元・製造元" value="{{ Request::get('keyword') }}"
-                class="form-input mt-1 block w-full sm:w-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 flex-grow">
+                class="form-input text-gray-800 mt-1 block w-full sm:w-auto rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 flex-grow">
             <button type="submit" class="px-4 py-2 min-w-32 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-150 ease-in-out flex-shrink-0">
                 検索
             </button>
@@ -19,43 +19,45 @@
     
     {{-- 一覧 --}}
     <div class="overflow-x-auto">
-        <table class="table-auto w-full text-left text-sm ml-4">
+        <table class="table-auto w-full text-left text-sm border-collapse border border-gray-400">
             <thead>
                 <tr class="bg-gray-200 text-gray-600">
-                    <th class="text-left px-4 py-2">ID</th>
-                    <th class="px-4 py-2">
+                    <th class="text-left px-4 py-2 border border-gray-400 font-bold">ID</th>
+                    <th class="px-4 py-2 border border-gray-400 font-bold">
                         {!! item_sort_link('item_name', '商品名') !!}
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2 border border-gray-400 font-bold">
                         {!! item_sort_link('arrival_source', '入荷元') !!}
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2 border border-gray-400 font-bold">
                         {!! item_sort_link('manufacturer', '製造元') !!}
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2 border border-gray-400 font-bold">
                         {!! item_sort_link('price', '価格') !!}
                     </th>
-                    <th class="px-4 py-2">
+                    <th class="px-4 py-2 border border-gray-400 font-bold">
                         {!! item_sort_link('created_at', '登録日') !!}
                     </th>
-                    <th class="px-4 py-2">お気に入り</th>
-                    <th class="px-4 py-2">カート</th>
-                    <th class="px-4 py-2">削除</th>
+                    <th class="px-4 py-2 border border-gray-400 font-bold">お気に入り</th>
+                    <th class="px-4 py-2 border border-gray-400 font-bold">カート</th>
+                    <th class="px-4 py-2 border border-gray-400 font-bold">削除</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($items as $item)
-                <tr class="@if($loop->odd) bg-gray-50 @endif">
-                    <td class="px-4 py-2">{{ $item->id }}
-                        <a href="{{ route('items.edit', $item) }}" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700">編集</a>
+                <tr class="@if($loop->odd) bg-gray-600 @endif border border-gray-400">
+                    <td class="px-4 py-2 border border-gray-400">
+                        <a href="{{ route('items.edit', $item) }}" class="text-blue-300 underline hover:text-blue-100">
+                            {{ $item->id }}
+                        </a>
                     </td>
-                    <td class="px-4 py-2">{{ $item->item_name }}</td>
-                    <td class="px-4 py-2">{{ $item->arrival_source }}</td>
-                    <td class="px-4 py-2">{{ $item->manufacturer }}</td>
-                    <td class="px-4 py-2">{{ $item->price }}</td>
-                    <td class="px-4 py-2">{{ Carbon\Carbon::parse($item->created_at)->format('Y年m月d日') }}</td>
+                    <td class="text-white px-4 py-2 border border-gray-400">{{ $item->item_name }}</td>
+                    <td class="text-white px-4 py-2 border border-gray-400">{{ $item->arrival_source }}</td>
+                    <td class="text-white px-4 py-2 border border-gray-400">{{ $item->manufacturer }}</td>
+                    <td class="text-white px-4 py-2 border border-gray-400">{{ $item->price }}</td>
+                    <td class="text-white px-4 py-2 border border-gray-400">{{ Carbon\Carbon::parse($item->created_at)->format('Y年m月d日') }}</td>
                     
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 border border-gray-400">
                         @if (!Auth::user()->is_favorite($item->id))
                         <form action="{{ route('favorite.store', $item) }}" method="post">
                             @csrf
@@ -70,14 +72,14 @@
                         @endif
                     </td>
 
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 border border-gray-400">
                         <form action="{{ route('cart_items.add_cart', $item) }}" method="post">
                             @csrf
                             <button class="add-to-cart-button bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">カートに入れる</button>
                         </form>
                     </td>
 
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 border border-gray-400">
                         <button type="button" x-on:click="showModal = true; itemId = {{ $item->id }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700">
                             削除
                         </button>
@@ -93,7 +95,7 @@
     </div>
     
     {{-- モーダル --}}
-    <div x-show="showModal" class="hidden fixed inset-0 z-60 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" @click="showModal = false">        
+    <div x-show="showModal" style="display: none;" class="fixed inset-0 z-60 flex justify-center items-center overflow-y-auto h-full w-full bg-gray-600 bg-opacity-50" @click="showModal = false">        
         <div class="px-4 py-4 relative border w-1/2 max-w-4xl shadow-lg rounded-md bg-white" style="transform: none;" @click.stop>
             <div class="modal-header">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">商品削除確認</h3>

@@ -122,5 +122,6 @@ return [
         'name' => '名前',
         'hobby' => '趣味',
         'skill' => '特技',
+        'address' => '住所',
     ],
 ];

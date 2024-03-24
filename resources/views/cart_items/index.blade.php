@@ -9,64 +9,63 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success text-white">
                 {{ session('success') }}
             </div>
             @endif
         
             @if (session('error'))
-                <div class="alert alert-danger">
+                <div class="alert alert-danger text-red-500">
                     {{ session('error') }}
                 </div>
             @endif
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="py-3 px-6">商品名</th>
-                            <th scope="col" class="py-3 px-6">価格</th>
-                            <th scope="col" class="py-3 px-6">数量</th>
-                            <th scope="col" class="py-3 px-6">小計</th>
-                            <th scope="col" class="py-3 px-6">操作</th>
-                        </tr>
-                    </thead>
-                    @php $totalAmount = 0; @endphp
-                    <tbody>
-                        @foreach ($cartItems as $item)
-                        {{-- 各アイテムの小計を合計金額に加算 --}}
-                        @php $totalAmount += $item->price * $item->pivot->quantity; @endphp
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td class="py-4 px-6">{{ $item->item_name }}</td>
-                            <td class="py-4 px-6">{{ $item->price }}円</td>
-                            <td class="py-4 px-6">
-                                <select class="quantity" data-item-id="{{ $item->id }}">
-                                    @for ($i = 0; $i <= 10; $i++)
-                                        <option value="{{ $i }}" {{ $item->pivot->quantity == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </td>
-                            <td class="py-4 px-6">{{ $item->price * $item->pivot->quantity }}円</td>
-                            <td class="py-4 px-6">
-                                <button class="delete-item bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-item-id="{{ $item->id }}">削除</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="bg-gray-200 text-gray-600">
+                    <tr>
+                        <th scope="col" class="text-left px-4 py-2 border border-gray-400 font-bold">商品名</th>
+                        <th scope="col" class="text-left px-4 py-2 border border-gray-400 font-bold">価格</th>
+                        <th scope="col" class="text-left px-4 py-2 border border-gray-400 font-bold">数量</th>
+                        <th scope="col" class="text-left px-4 py-2 border border-gray-400 font-bold">小計</th>
+                        <th scope="col" class="text-left px-4 py-2 border border-gray-400 font-bold">操作</th>
+                    </tr>
+                </thead>
+                @php $totalAmount = 0; @endphp
+                <tbody>
+                    @foreach ($cartItems as $item)
+                    {{-- 各アイテムの小計を合計金額に加算 --}}
+                    @php $totalAmount += $item->price * $item->pivot->quantity; @endphp
+                    <tr class="@if($loop->odd) bg-gray-600 @endif border border-gray-400">
+                        
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $item->item_name }}</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $item->price }}円</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">
+                            <select class="text-gray-900 quantity" data-item-id="{{ $item->id }}">
+                                @for ($i = 0; $i <= 10; $i++)
+                                    <option value="{{ $i }}" {{ $item->pivot->quantity == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </td>
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $item->price * $item->pivot->quantity }}円</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">
+                            <button class="delete-item bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-item-id="{{ $item->id }}">削除</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-                {{-- 合計金額 --}}
-                <div class="mt-6">
-                    <p class="text-lg">合計金額: <span id="total-amount">{{ $totalAmount }}</span>円</p>
-                </div>
+            {{-- 合計金額 --}}
+            <div class="mt-6">
+                <p class="text-white text-lg">合計金額: <span id="total-amount">{{ $totalAmount }}</span>円</p>
+            </div>
 
-                {{-- 戻るボタン、購入するボタン --}}
-                <div class="mt-6 flex justify-between">
-                    <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">戻る</a>
-                    <form action="{{ route('purchase') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">購入する</button>
-                    </form>
-                </div>
+            {{-- 戻るボタン、購入するボタン --}}
+            <div class="mt-6 flex justify-between">
+                <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">戻る</a>
+                <form action="{{ route('purchase') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">購入する</button>
+                </form>
             </div>
         </div>
     </div>

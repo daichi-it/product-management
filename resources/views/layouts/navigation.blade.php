@@ -19,8 +19,8 @@
                     </x-nav-link>
 
                     <!-- 商品メニューと出荷先メニューのトリガー -->
-                    <button type="button" x-on:click="showItemModalMenu = true" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">商品</button>
-                    <button type="button" x-on:click="showShippingModalMenu = true" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">出荷先</button>
+                    <button type="button" x-on:click="showItemModalMenu = true" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">商品</button>
+                    <button type="button" x-on:click="showShippingModalMenu = true" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">出荷先</button>
                     
                     <x-nav-link :href="route('cart_items.index')" :active="request()->routeIs('cart_items.index')">
                         {{ __('カート') }}
@@ -115,28 +115,32 @@
     </div>
 
     <!-- 商品メニューモーダル -->
-    <div x-show="showItemModalMenu" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showItemModalMenu = false">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
+    <div x-show="showItemModalMenu" style="display: none;" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showItemModalMenu = false">
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-1/2 h-1/2 mx-auto my-auto" @click.stop>
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">商品メニュー</h2>
                 <button @click="showItemModalMenu = false" class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <div class="mt-4">
                 <a href="{{ route('items.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品一覧</a>
-                <a href="{{ route('items.create') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品新規追加</a>
+            </div>
+            <div class="mt-4">
+                    <a href="{{ route('items.create') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">商品新規追加</a>
             </div>
         </div>
     </div>
 
     <!-- 出荷先メニューモーダル -->
-    <div x-show="showShippingModalMenu" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showShippingModalMenu = false">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md mx-auto" @click.stop>
+    <div x-show="showShippingModalMenu" style="display: none;" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50" @click="showShippingModalMenu = false">
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg w-1/2 h-1/2 mx-auto my-auto" @click.stop>
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">出荷先メニュー</h2>
                 <button @click="showShippingModalMenu = false" class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <div class="mt-4">
                 <a href="{{ route('shippings.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">出荷先一覧</a>
+            </div>
+            <div class="mt-4">
                 <a href="{{ route('shippings.register') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4 text-center text-blue-500 hover:underline">出荷先登録</a>
             </div>
         </div>

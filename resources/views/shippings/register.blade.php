@@ -17,38 +17,33 @@
                 <div id="errorMessages" style="color:red;"></div>
                 <form id="shippingForm">
                     <dl class="form-list">
-                        <dt>出荷先名</dt>
-                        <dd><input type="text" id="name" name="name" class="border border-gray-300 rounded-md p-2"></dd>
-                        <dt>出荷先住所</dt>
-                        <dd><input type="text" id="address" name="address" class="border border-gray-300 rounded-md p-2"></dd>
-                        <dt>電話番号</dt>
-                        <dd><input type="text" id="tel" name="tel" class="border border-gray-300 rounded-md p-2"></dd>
+                        <dt class="text-white">出荷先名</dt>
+                        <dd class="pb-3"><input type="text" id="name" name="name" class="text-gray-800 rounded-md p-2"></dd>
+                        <dt class="text-white">出荷先住所</dt>
+                        <dd class="pb-3"><input type="text" id="address" name="address" class="text-gray-800 rounded-md p-2"></dd>
+                        <dt class="text-white">電話番号</dt>
+                        <dd class="pb-3"><input type="text" id="tel" name="tel" class="text-gray-800 rounded-md p-2"></dd>
                     </dl>
-                    <button class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700" type="button" id="toConfirm">確認画面へ</button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" id="toConfirm">登録</button>
                 </form>
             </div>
         `;
 
         const confirmFormHTML = (name, address, tel) => `
             <div id="confirmForm" class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <div id="confirmDetails">
-                    <dl class="form-list">
-                        <dt>会社名</dt>
-                        <dd>${name}</dd>
-                        <dt>住所</dt>
-                        <dd>${address}</dd>
-                        <dt>電話番号</dt>
-                        <dd>${tel}</dd>
-                    </dl>
+                <div id="confirmDetails" class="bg-gray-800 p-4 rounded mt-4">
+                    <p class="text-white text-lg">会社名: ${name}</p>
+                    <p class="text-white text-lg">住所: ${address}</p>
+                    <p class="text-white text-lg">電話番号: ${tel}</p>
                 </div>
-                <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700" type="button" id="submitForm">送信</button>
-                <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-700" type="button" id="backToInput">戻る</button>
+                <button class="bg-blue-500 text-white font-bold py-2 px-4 mt-4 rounded hover:bg-blue-700" type="button" id="submitForm">送信</button>
+                <button class="bg-gray-500 text-white font-bold py-2 px-4 ml-2 mt-4 rounded hover:bg-gray-700" type="button" id="backToInput">戻る</button>
             </div>
         `;
 
         const completeFormHTML = `
             <div id="completeForm"  class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
-                <p class="mb-4">登録が完了しました。</p>
+                <p class="text-white text-lg mb-4">登録が完了しました。</p>
                 <button class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700" type="button" id="newRegister">戻る</button>
             </div>
         `;
@@ -121,6 +116,8 @@
                 attachEvents();
                 // 完了画面から戻る操作をブロック
                 history.pushState({ page: 'new' }, '', '#new');
+                // tempFormDataをクリア
+                tempFormData = {};
             }
         }
 

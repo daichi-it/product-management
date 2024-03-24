@@ -14,7 +14,7 @@ if (!function_exists('item_sort_link')) {
         $icon = request('sort') === $column ? (request('direction', 'asc') === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down') : '';
         
         $linkParams = array_merge($currentParams, ['sort' => $column, 'direction' => $direction]);
-        $link = route('items.index', $linkParams);
+        $link = request()->routeIs('items.favorite_items') ? route('items.favorite_items', $linkParams) : route('items.index', $linkParams);
 
         return "<a href=\"{$link}\">{$title} <i class=\"fas {$icon}\"></i></a>";
     }

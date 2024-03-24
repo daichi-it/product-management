@@ -8,35 +8,35 @@
     <div x-data="{ showModal: false, shippingId: null }">
         {{-- 削除完了メッセージ --}}
         @if (session('status'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <div class="text-green-100 px-4 py-3 rounded relative" role="alert">
             <span class="block sm:inline">{{ session('status') }}</span>
         </div>
         @endif
     
         {{-- 一覧 --}}
         <div class="overflow-x-auto">
-            <table class="table-auto w-full text-left text-sm ml-4">
+            <table class="table-auto w-full text-left text-sm">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600">
-                        <th class="text-left px-4 py-2">ID</th>
-                        <th class="px-4 py-2">出荷先名</th>
-                        <th class="px-4 py-2">出荷先住所</th>
-                        <th class="px-4 py-2">出荷先電話番号</th>
-                        <th class="px-4 py-2">登録日</th>
-                        <th class="px-4 py-2">削除</th>
+                        <th class="text-left px-4 py-2 border border-gray-400 font-bold">ID</th>
+                        <th class="px-4 py-2 border border-gray-400 font-bold">出荷先名</th>
+                        <th class="px-4 py-2 border border-gray-400 font-bold">出荷先住所</th>
+                        <th class="px-4 py-2 border border-gray-400 font-bold">出荷先電話番号</th>
+                        <th class="px-4 py-2 border border-gray-400 font-bold">登録日</th>
+                        <th class="px-4 py-2 border border-gray-400 font-bold">削除</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($shippings as $shipping)
-                    <tr class="@if($loop->odd) bg-gray-50 @endif">
-                        <td class="px-4 py-2">{{ $shipping->id }}
+                    <tr class="@if($loop->odd) bg-gray-600 @endif">
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $shipping->id }}
                             {{-- <a href="{{ route('shippings.edit', $shipping) }}" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700">編集</a> --}}
                         </td>
-                        <td class="px-4 py-2">{{ $shipping->name }}</td>
-                        <td class="px-4 py-2">{{ $shipping->address }}</td>
-                        <td class="px-4 py-2">{{ $shipping->tel }}</td>
-                        <td class="px-4 py-2">{{ Carbon\Carbon::parse($shipping->created_at)->format('Y年m月d日') }}</td>
-                        <td class="px-4 py-2">
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $shipping->name }}</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $shipping->address }}</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ $shipping->tel }}</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">{{ Carbon\Carbon::parse($shipping->created_at)->format('Y年m月d日') }}</td>
+                        <td class="text-white px-4 py-2 border border-gray-400">
                             <button type="button" x-on:click="showModal = true; shippingId = {{ $shipping->id }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700">
                                 削除
                             </button>

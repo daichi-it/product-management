@@ -201,9 +201,23 @@ class ItemController extends Controller
         return view('items.complete');
     }
 
-    public function favorite_items()
+    public function favorite_items(Request $request)
     {
-        $items = \Auth::user()->favorite_items()->orderBy('created_at', 'desc')->paginate(5);
+        $query = \Auth::user()->favorite_items();
+
+        // キーワードでの絞り込み
+        if ($request->filled('keyword')) {
+            $query->where('item_name', 'like', '%' . $request->keyword . '%')
+                ->orWhere('arrival_source', 'like', '%' . $request->keyword . '%')
+                ->orWhere('manufacturer', 'like', '%' . $request->keyword . '%');
+        }
+        // ソート処理
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        $query->orderBy($sort, $direction);
+
+        $items = $query->paginate(5);
+
         return view('items.favorite_items', compact('items'));
     }
 }

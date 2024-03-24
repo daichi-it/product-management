@@ -7,18 +7,18 @@
 
     {{-- 一覧 --}}
     <div class="overflow-x-auto">
-        <table class="table-auto w-full text-left text-sm ml-4">
+        <table class="table-auto w-full text-left text-sm">
             <thead>
                 <tr class="bg-gray-200 text-gray-600">
-                    <th class="px-4 py-2">日時</th>
-                    <th class="px-4 py-2">ログ内容</th>
+                    <th class="text-left px-4 py-2 border border-gray-400 font-bold">日時</th>
+                    <th class="text-left px-4 py-2 border border-gray-400 font-bold">ログ内容</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($logs as $log)
-                <tr class="@if($loop->odd) bg-gray-50 @endif">
-                    <td class="px-4 py-2">{{ Carbon\Carbon::parse($log->created_at)->format('Y年m月d日 H:i:s') }}</td>
-                    <td class="px-4 py-2">{{ $log->information }}</td>
+                <tr class="@if($loop->odd) bg-gray-600 @endif">
+                    <td class="text-white text-left px-4 py-2 border border-gray-400 font-bold">{{ Carbon\Carbon::parse($log->created_at)->format('Y年m月d日 H:i:s') }}</td>
+                    <td class="text-white text-left px-4 py-2 border border-gray-400 font-bold">{{ $log->information }}</td>
                 </tr>
                 @endforeach
             </tbody>
