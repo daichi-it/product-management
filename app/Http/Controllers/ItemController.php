@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ItemRequest;
 
 class ItemController extends Controller
 {
@@ -59,17 +60,10 @@ class ItemController extends Controller
     }
 
 
-    public function confirm(Request $request, Item $item = null)
+    public function confirm(ItemRequest $request, Item $item = null)
     {
         // バリデーション
-        $validatedData = $request->validate([
-            'item_name' => 'required|string|max:255',
-            'arrival_source' => 'required|string|max:255',
-            'manufacturer' => 'required|string|max:255',
-            'price' => 'required|integer',
-            'email' => 'required|string|email|max:255',
-            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/'
-        ]);
+        $validatedData = $request->validated();
         
         // 新規登録か更新かを判断
         $isUpdate = !is_null($item);
@@ -114,14 +108,6 @@ class ItemController extends Controller
         // データの保存後、セッションからバリデーション済みデータを削除
         $request->session()->forget('data');
         return redirect(route('items.complete'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Item $item)
-    {
-        // return view('items.show', compact('item'));
     }
 
     /**

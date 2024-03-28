@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ContactRequest;
 use App\Mail\AdminInquiryNotification;
 use App\Mail\UserContactConfirmation;
 use App\Models\Contact;
@@ -18,25 +19,10 @@ class ContactController extends Controller
     }
        
     // 確認画面表示
-    public function confirm(Request $request)
+    public function confirm(ContactRequest $request)
     {
-        // バリデーションルール
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|string|email|max:255',
-            'gender' => 'required|in:male,female',
-            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
-        ];
-        // 趣味 or 特技
-        if ($request->input('gender') === 'male') {
-            $rules['hobby'] = 'required'; // 男性: 趣味が必須
-        } else {
-            $rules['skill'] = 'required'; // 女性: 特技が必須
-        }
-        // 問い合わせ内容
-        $rules['message'] = 'required';
-        
-        $validatedData = $request->validate($rules);
+        // バリデーション
+        $validatedData = $request->validated();
         
         // セッションに入れる
         $request->session()->put('validatedData', $validatedData);

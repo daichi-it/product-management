@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShippingRequest;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Validator;
@@ -17,71 +18,18 @@ class ShippingController extends Controller
         return view('shippings.index', compact('shippings'));
     }
 
-    public function confirm(Request $request)
+    public function confirm(ShippingRequest $request)
     {
-        $rules = [
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
-            'tel' => 'required|string|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
-        ];
-
-        // バリデーション実行（非同期はこの方法が推奨）
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            // バリデーションエラー時の処理
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        return response()->json($request->all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($request->validated());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ShippingRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
-            'tel' => 'required|regex:/^\d{2,4}-?\d{2,4}-?\d{4}$/',
-        ]);
-
-        $shipping = Shipping::create($validatedData);
-
+        $shipping = Shipping::create($request->validated());
         return response()->json(['success' => '出荷先が登録されました。', 'id' => $shipping->id], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Shipping $shipping)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Shipping $shipping)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Shipping $shipping)
-    {
-        //
     }
 
     /**
