@@ -14,4 +14,3 @@
     <dd class="pb-3"><input type="text" name="tel" value="{{ old('tel', $data['tel']) }}" class="text-gray-800 rounded-md p-2"></dd>
 </dl>
 
-
