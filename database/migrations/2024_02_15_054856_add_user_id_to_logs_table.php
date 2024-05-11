@@ -11,17 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {            
-        // logsテーブルにuser_idカラムをNULL許容で追加
+        // logsテーブルにuser_idカラムを追加
         Schema::table('logs', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable()->after('id');;
-        });
-
-        // 既存のデータには仮で"1"という値を設定
-        DB::table('logs')->update(['user_id' => 1]);
-
-        // user_idにnot NULLと外部キー制約を設定
-        Schema::table('logs', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable(false)->change();
+            $table->unsignedBigInteger('user_id')->after('id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
         
